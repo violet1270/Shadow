@@ -259,5 +259,9 @@ int main()
     cout<<t3<<endl;
     cout << "new branch" << endl;
     cout << "again" << endl;
+    cout << "new branch" << endl;
+    cout << "again" << endl;
+    cout << "new branch" << endl;
+    cout << "again" << endl;
     return 0;
 }
