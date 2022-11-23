@@ -1,13 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define inf 0x3f3f3f3f
+
 class edge
 {
 public:
-    int st; //Æðµã
-    int ed; //ÖÕµã
-    int val; //Ê£ÓàÁ÷Á¿
-    int pair; //·´Ïò±ßÏÂ±ê
+    int st; //ï¿½ï¿½ï¿½
+    int ed; //ï¿½Õµï¿½
+    int val; //Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    int pair; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â±ï¿½
     edge(){}
     edge(int a, int b, int c, int d)
     {
@@ -17,23 +18,23 @@ public:
         pair=d;
     }
 };
-int n; //¶¥µãÊý
-int e; //³õÊ¼±ßÊý
-int src; //Ô´µã
-int dst; //»ãµã
-int ans; // ½á¹û
-vector<vector<int> > adj;	// adj[x][i]±íÊ¾´Óx³ö·¢µÄµÚiÌõ±ßÔÚ±ß¼¯ºÏÖÐµÄÏÂ±ê
-vector<edge> edges;			// ±ß¼¯ºÏ
-vector<edge> edges_;		// Ô­Ê¼Êý¾Ý ÒòÎªÃ¿´Î±ßÒªÔö¹ãËùÒÔÖØ¸´¼ÆËãÊ±Òª³õÊ¼»¯±ß
-vector<int> min_flow;		// min_flow[x]±íÊ¾´ÓÆðµãµ½xµÄÂ·¾¶ÖÐ×îÏ¸Á÷
-vector<int> father;			// Éú³ÉÊ÷
-vector<int> level;			// ²ã´Î
-vector<int> cur_arc;		// µ±Ç°»¡ÓÅ»¯Êý×é
-vector<int> dis_cnt;		// ¾àÀë¼ÆÊýÆ÷
-vector<int> hyper_flow;		// ³¬¶îÁ÷Á¿
-//Ford-Fulkerson·½·¨
+int n; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+int e; //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
+int src; //Ô´ï¿½ï¿½
+int dst; //ï¿½ï¿½ï¿½
+int ans; // ï¿½ï¿½ï¿½
+vector<vector<int> > adj;	// adj[x][i]ï¿½ï¿½Ê¾ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½iï¿½ï¿½ï¿½ï¿½ï¿½Ú±ß¼ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Â±ï¿½
+vector<edge> edges;			// ï¿½ß¼ï¿½ï¿½ï¿½
+vector<edge> edges_;		// Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ÎªÃ¿ï¿½Î±ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Òªï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
+vector<int> min_flow;		// min_flow[x]ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ãµ½xï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½
+vector<int> father;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+vector<int> level;			// ï¿½ï¿½ï¿½
+vector<int> cur_arc;		// ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Å»ï¿½ï¿½ï¿½ï¿½ï¿½
+vector<int> dis_cnt;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+vector<int> hyper_flow;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//Ford-Fulkersonï¿½ï¿½ï¿½ï¿½
 void FF();
-//bfsÕÒ×î¶ÌÔö¹ãÂ·¾¶
+//bfsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 bool bfs_augment()
 {
     for(int i=0; i<n; i++)
@@ -62,13 +63,13 @@ bool bfs_augment()
     }
     return false;
 }
-//¸ù¾Ýbfs_augmentµÄÉú³ÉÊ÷father[]¸üÐÂÍ¼
+//ï¿½ï¿½ï¿½ï¿½bfs_augmentï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½father[]ï¿½ï¿½ï¿½ï¿½Í¼
 void graph_update()
 {
     int x, y=dst, flow=min_flow[dst], i;
     ans += flow;
     vector<int> path;
-    while(y!=src)// ÑØ×ÅÉú³ÉÊ÷ÕÒÆðµã²¢ÑØÍ¾¸üÐÂ±ß
+    while(y!=src)// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã²¢ï¿½ï¿½Í¾ï¿½ï¿½ï¿½Â±ï¿½
     {
         path.push_back(y);
         x = father[y];
@@ -76,11 +77,11 @@ void graph_update()
             if(edges[adj[x][i]].ed==y)
                 break;
         edges[adj[x][i]].val -= flow;
-        edges[edges[adj[x][i]].pair].val += flow;// ¸üÐÂÁíÒ»°ëµÄ±ß
+        edges[edges[adj[x][i]].pair].val += flow;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ä±ï¿½
         y = x;
     }
 }
-//Edmonds-KarpËã·¨
+//Edmonds-Karpï¿½ã·¨
 void EK()
 {
     ans = 0;
@@ -92,9 +93,9 @@ void EK()
 //        for(int i=0; i<edges.size(); i++)
 //            cout<<edges[i].st<<" -> "<<edges[i].ed<<" val="<<edges[i].val<<endl;
     }
-//    cout<<"×î´óÁ÷:"<<ans<<endl;
+//    cout<<"ï¿½ï¿½ï¿½ï¿½ï¿½:"<<ans<<endl;
 }
-//²ã´Î±éÀú±ê¼Ç½Úµã²ãÊý
+//ï¿½ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½Ç½Úµï¿½ï¿½ï¿½ï¿½
 bool bfs_level()
 {
     for(int i=0; i<n; i++)
@@ -102,7 +103,7 @@ bool bfs_level()
     level[src] = 0;
     queue<int> q;
     q.push(src);
-    int lv = 0;	// bfs²ã´ÎÊý
+    int lv = 0;	// bfsï¿½ï¿½ï¿½ï¿½ï¿½
     while(!q.empty())
     {
         lv++;
@@ -126,7 +127,7 @@ bool bfs_level()
     }
     return false;
 }
-//Íùx½ÚµãÈûÈëflowÁ÷Á¿ ²¢ÇÒ³¢ÊÔ·ÖÅäÏÂÈ¥
+//ï¿½ï¿½xï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½flowï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò³ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½È¥
 int dfs_dinic(int x, int flow)
 {
     father[x] = 1;
@@ -141,11 +142,11 @@ int dfs_dinic(int x, int flow)
         int res = dfs_dinic(y, min(flow, e.val));
         edges[adj[x][i]].val-=res, edges[edges[adj[x][i]].pair].val+=res;
         if(res!=0)
-            return res;	// ÕÒµ½Ö±½Ó·µ»Ø
+            return res;	// ï¿½Òµï¿½Ö±ï¿½Ó·ï¿½ï¿½ï¿½
     }
-    return 0;	// Ã»ÕÒµ½Ôò·µ»Ø0
+    return 0;	// Ã»ï¿½Òµï¿½ï¿½ò·µ»ï¿½0
 }
-//DinicËã·¨
+//Dinicï¿½ã·¨
 void Dinic()
 {
     ans = 0;
@@ -157,12 +158,12 @@ void Dinic()
                 father[i]=0;
             int res = dfs_dinic(src, inf);
             if(res==0)
-                break;	// ÕÒ²»µ½Ôö¹ãÂ· ÐèÒªÖØÐÂbfs¸üÐÂ²ã´Î
+                break;	// ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â· ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½bfsï¿½ï¿½ï¿½Â²ï¿½ï¿½
             ans += res;
         }
     }
 }
-//Ìí¼ÓÒ»Ìõ±ß¼°Æä·´Ïò±ß
+//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ä·´ï¿½ï¿½ï¿½
 void add_edge(int st, int ed, int val)
 {
     int ii=edges_.size();
@@ -170,11 +171,11 @@ void add_edge(int st, int ed, int val)
     edges_.push_back(edge(ed, st, 0, ii));
     adj[st].push_back(ii); adj[ed].push_back(ii+1);
 }
-//Ëæ»úÉú³ÉÍ¼
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
 void load_random_graph(int essay_num, int judge_num, int a, int b)
 {
     int st, ed;
-    n = 1 + essay_num + essay_num*judge_num + judge_num*a + 1;//¶¥µãÊý
+    n = 1 + essay_num + essay_num*judge_num + judge_num*a + 1;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     cout<<n<<endl;
     adj.resize(n);
     father.resize(n);
@@ -221,7 +222,7 @@ void load_random_graph(int essay_num, int judge_num, int a, int b)
     e = edges_.size();
     edges.resize(e);
 }
-//½«Í¼»Ö¸´ÎªÄ¬ÈÏÉú³ÉµÄÍ¼
+//ï¿½ï¿½Í¼ï¿½Ö¸ï¿½ÎªÄ¬ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½Í¼
 void re_graph()
 {
     for(int i=0; i<e; i++)
@@ -235,29 +236,31 @@ int main()
     cin>>a;
     cin>>b;
     load_random_graph(10, 3, a, b );
-    //FF·½·¨
+    //FFï¿½ï¿½ï¿½ï¿½
     re_graph();
     st = clock();
     FF();
     ed = clock();
     t1 += (double)(ed-st)/CLOCKS_PER_SEC;
-    //EKËã·¨
+    //EKï¿½ã·¨
     re_graph();
     st = clock();
     EK();
     ed = clock();
     t2 += (double)(ed-st)/CLOCKS_PER_SEC;
-    //Dinic¡®sËã·¨
+    //Dinicï¿½ï¿½sï¿½ã·¨
     re_graph();
     st = clock();
     Dinic();
     ed = clock();
     t3 += (double)(ed-st)/CLOCKS_PER_SEC;
-    //Êä³öÊ±¼ä
+    //ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
     cout<<t1<<endl;
     cout<<t2<<endl;
     cout<<t3<<endl;
     cout << "new branch" << endl;
     cout << "again" << endl;
+    cout<<"zhognyijin change it."<<endl;
+    
     return 0;
 }
